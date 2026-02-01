@@ -716,6 +716,40 @@
       }
     });
   </script>
+  
+  <div class="modal" id="egerieModal">
+  <div class="modal-content">
+    <button class="close" id="closeEgerie">Fermer</button>
+
+    <img
+      src="./salma.jpg"
+      alt="Salma CHNAYTI"
+      class="egerie-photo"
+    />
+
+    <p class="egerie-caption">
+      L’égérie de La Juanita 💛
+    </p>
+  </div>
+</div>
+
+  <script>
+    const openEgerie = document.getElementById("openEgerie");
+    const egerieModal = document.getElementById("egerieModal");
+    const closeEgerie = document.getElementById("closeEgerie");
+
+    if (openEgerie && egerieModal) {
+      openEgerie.addEventListener("click", () => {
+        egerieModal.classList.add("show");
+      });
+    }
+
+    if (closeEgerie && egerieModal) {
+      closeEgerie.addEventListener("click", () => {
+      egerieModal.classList.remove("show");
+      });
+    }
+  </script>
 
 </body>
 </html>
