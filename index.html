@@ -333,10 +333,10 @@
 
     /* --- Égérie cliquable MAIS style normal --- */
     #openEgerie{
-      color: inherit;           /* garde la couleur normale */
-      font: inherit;            /* garde la police normale */
-      font-weight: inherit;     /* garde le poids normal */
-      cursor: pointer;          /* juste pour montrer que c'est cliquable */
+      color: inherit;
+      font: inherit;
+      font-weight: inherit;
+      cursor: pointer;
       text-decoration: none;
     }
     #openEgerie:hover{
@@ -454,6 +454,21 @@
     .valentine p{
       color: rgba(255,255,255,.70);
       margin-bottom: 16px;
+    }
+
+    /* ✅ AJOUT : zone des 2 boutons Oui / Non */
+    .valentine-actions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin-top: 8px;
+      position: relative;
+    }
+
+    /* ✅ AJOUT : bouton Non qui peut bouger */
+    #noBtn{
+      position: relative;
+      transition: transform 0.18s ease;
     }
 
     /* ---------- MODAL ÉGÉRIE (ton snippet) ---------- */
@@ -704,10 +719,15 @@
         </div>
       </div>
 
+      <!-- ✅ MODIF : ajout du bouton NON + conteneur -->
       <div class="modal-body valentine" id="valentine">
         <h2>Dernière Étape</h2>
         <p>Salma, une joyeuse Saint-Valentin avec moi ?</p>
-        <button class="btn primary" id="yesBtn">Oui</button>
+
+        <div class="valentine-actions">
+          <button class="btn primary" id="yesBtn" type="button">Oui</button>
+          <button class="btn" id="noBtn" type="button">Non</button>
+        </div>
       </div>
     </div>
   </div>
@@ -788,6 +808,21 @@
         egerieModal.classList.remove("show");
       }
     });
+
+    // ✅ AJOUT : NON QUI FUIT
+    const noBtn = document.getElementById("noBtn");
+
+    const moveNoBtn = () => {
+      // mouvements raisonnables dans le modal
+      const x = Math.floor(Math.random() * 220) - 110; // -110..110
+      const y = Math.floor(Math.random() * 110) - 40;  // -40..70
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    };
+
+    if (noBtn) {
+      noBtn.addEventListener("mouseenter", moveNoBtn);
+      noBtn.addEventListener("click", moveNoBtn);
+    }
   </script>
 
 </body>
