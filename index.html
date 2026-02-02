@@ -788,6 +788,16 @@
       // rien qui pop-up ✅
     };
 
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const valentinePhoto = document.getElementById("valentinePhoto");
+
+    // OUI → afficher la photo
+    yesBtn.addEventListener("click", () => {
+      valentinePhoto.style.display = "block";
+    });
+    
+
     overlay.addEventListener("click", (e) => {
       if(e.target === overlay){
         overlay.classList.remove("open");
