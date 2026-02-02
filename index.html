@@ -33,7 +33,6 @@
       color:var(--text);
       overflow-x:hidden;
 
-      /* Hero background photo + overlay for readability */
       background: linear-gradient(180deg, rgba(0,0,0,.68), rgba(0,0,0,.88)),
                   url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80");
       background-size: cover;
@@ -195,7 +194,7 @@
 
     .hero-title{
       font-size: clamp(42px, 5vw, 64px);
-      letter-spacing: .10em; /* a bit less than h1 default for readability */
+      letter-spacing: .10em;
       text-transform: uppercase;
       line-height: 1.05;
       margin-bottom: 10px;
@@ -272,7 +271,7 @@
       line-height:1.75;
     }
 
-    /* ---------- INFOS PRATIQUES (match example) ---------- */
+    /* ---------- INFOS PRATIQUES ---------- */
     .info-wrap{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -332,6 +331,20 @@
       line-height:1.7;
     }
 
+    /* --- Égérie cliquable MAIS style normal --- */
+    #openEgerie{
+      color: inherit;           /* garde la couleur normale */
+      font: inherit;            /* garde la police normale */
+      font-weight: inherit;     /* garde le poids normal */
+      cursor: pointer;          /* juste pour montrer que c'est cliquable */
+      text-decoration: none;
+    }
+    #openEgerie:hover{
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(245,185,66,.55);
+    }
+
     .hours{
       margin-top: 10px;
     }
@@ -371,7 +384,7 @@
       flex-wrap:wrap;
     }
 
-    /* ---------- MODAL ---------- */
+    /* ---------- MODAL RESA (overlay) ---------- */
     .overlay{
       position:fixed;
       inset:0;
@@ -442,6 +455,48 @@
       color: rgba(255,255,255,.70);
       margin-bottom: 16px;
     }
+
+    /* ---------- MODAL ÉGÉRIE (ton snippet) ---------- */
+    #egerieModal{
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.65);
+      z-index: 120;
+      padding: 18px;
+    }
+    #egerieModal.show{ display: flex; }
+
+    #egerieModal .modal-content{
+      background:#0c0d12;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      width:min(520px, 94vw);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      padding: 18px;
+      text-align:center;
+    }
+    #egerieModal .close{
+      float: right;
+      margin-left: auto;
+    }
+    .egerie-photo{
+      display:block;
+      width: 100%;
+      max-width: 360px;
+      margin: 18px auto 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 40px rgba(0,0,0,.45);
+      object-fit: cover;
+    }
+    .egerie-caption{
+      margin-top: 10px;
+      color: rgba(255,255,255,.78);
+      font-weight: 400;
+    }
   </style>
 </head>
 
@@ -451,14 +506,12 @@
   <div class="nav">
     <div class="container nav-inner">
       <div class="brand">
-        <!-- Put logo.png in the repo root -->
         <img src="./logo.png" alt="La Juanita logo" class="logo">
         <span class="brand-name">La Juanita</span>
       </div>
-      
-      
+
       <div class="links">
-        <a href="#menu.html">Menu</a>
+        <a href="menu.html">Menu</a>
         <a href="#ambiance">Ambiance</a>
         <a href="#infos">Infos</a>
       </div>
@@ -479,7 +532,6 @@
           <span>Cuisine & Ambiance</span>
         </div>
 
-        <!-- Hero title: restaurant name only -->
         <h1 class="hero-title">La Juanita</h1>
         <div class="elegant-script">From Casablanca to Marrakech</div>
 
@@ -552,7 +604,7 @@
       </div>
     </div>
 
-    <!-- Infos pratiques (match your example) -->
+    <!-- Infos pratiques -->
     <div class="section" id="infos">
       <div class="info-wrap">
         <div class="info-col">
@@ -574,22 +626,15 @@
           <div class="info-item">
             <div class="k">Égérie</div>
             <div class="v">
-                <span id="openEgerie" style="cursor:pointer;">
-                    Salma CHNAYTI
-                  </span>
-            </div>   
+              <span id="openEgerie">Salma CHNAYTI</span>
+            </div>
           </div>
-
-      
-         
-         
 
           <div class="info-item">
             <div class="k">Moyens de paiement</div>
             <div class="v">Kiss of life</div>
           </div>
         </div>
-        
 
         <div class="info-col">
           <div class="info-head">
@@ -633,7 +678,7 @@
     </div>
   </footer>
 
-  <!-- MODAL -->
+  <!-- MODAL RÉSERVATION -->
   <div class="overlay" id="overlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-label="Réservation">
       <div class="modal-header">
@@ -667,7 +712,17 @@
     </div>
   </div>
 
+  <!-- MODAL ÉGÉRIE (TON SNIPPET) -->
+  <div class="modal" id="egerieModal">
+    <div class="modal-content">
+      <button class="btn close" id="closeEgerie">Fermer</button>
+      <img src="./salma.jpg" class="egerie-photo" alt="Salma CHNAYTI" />
+      <p class="egerie-caption">L’égérie de La Juanita 💛</p>
+    </div>
+  </div>
+
   <script>
+    // ------- MODAL RÉSERVATION -------
     const overlay = document.getElementById("overlay");
     const booking = document.getElementById("booking");
     const valentine = document.getElementById("valentine");
@@ -695,32 +750,45 @@
     document.getElementById("yesBtn").onclick = () => {
       overlay.classList.remove("open");
       overlay.setAttribute("aria-hidden", "true");
-     
+      // rien qui pop-up ✅
     };
 
-    // Buttons (safe defaults)
-    document.getElementById("mapsBtn").onclick = () => {
-      window.open("https://www.google.com/maps/search/?api=1&query=La+Juanita+Rabat", "_blank");
-    };
-
-    document.getElementById("callBtn").onclick = () => {
-      // optional: replace with a real phone number
-      alert("Appel : ajoute un numéro si tu veux.");
-    };
-
-    document.getElementById("menuBtn").onclick = () => {
-      document.getElementById("menu").scrollIntoView({behavior:"smooth"});
-    };
-
-    // Close modal by clicking outside
     overlay.addEventListener("click", (e) => {
       if(e.target === overlay){
         overlay.classList.remove("open");
         overlay.setAttribute("aria-hidden", "true");
       }
     });
+
+    // ------- BOUTON ITINÉRAIRE -------
+    document.getElementById("mapsBtn").onclick = () => {
+      window.open("https://www.google.com/maps/search/?api=1&query=La+Juanita+Rabat", "_blank");
+    };
+
+    // ------- MODAL ÉGÉRIE -------
+    const openEgerie = document.getElementById("openEgerie");
+    const egerieModal = document.getElementById("egerieModal");
+    const closeEgerie = document.getElementById("closeEgerie");
+
+    if (openEgerie) {
+      openEgerie.addEventListener("click", () => {
+        egerieModal.classList.add("show");
+      });
+    }
+
+    if (closeEgerie) {
+      closeEgerie.addEventListener("click", () => {
+        egerieModal.classList.remove("show");
+      });
+    }
+
+    // fermer si on clique sur le fond (en dehors du contenu)
+    egerieModal.addEventListener("click", (e) => {
+      if (e.target === egerieModal) {
+        egerieModal.classList.remove("show");
+      }
+    });
   </script>
-  
 
 </body>
 </html>
