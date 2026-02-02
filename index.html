@@ -548,6 +548,29 @@
       color: rgba(255,255,255,.78);
       font-weight: 400;
     }
+
+    .apercu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .apercu-overlay.show {
+      display: flex;
+    }
+
+    .apercu-image {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      cursor: pointer;
+    }
+
     
   </style>
 </head>
