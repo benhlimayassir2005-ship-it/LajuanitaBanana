@@ -871,7 +871,25 @@
       }
     });
 
+    const apercuLink = document.querySelector('a[href="#ambiance"]');
+    const apercuOverlay = document.getElementById("apercuOverlay");
+
+    if (apercuLink) {
+      apercuLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        apercuOverlay.classList.add("show");
+      });
+    }
+
+    apercuOverlay.addEventListener("click", () => {
+      apercuOverlay.classList.remove("show");
+    });
+
   </script>
+
+  <div id="apercuOverlay" class="apercu-overlay">
+    <img src="./nekfeu.png" alt="Aperçu" class="apercu-image">
+  </div>
 
 </body>
 </html>
