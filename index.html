@@ -549,50 +549,33 @@
       font-weight: 400;
     }
 
-    
-
-    /* Overlay Aperçu */
-    .apercu-overlay {
+    #apercuModal{
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      justify-content: center;
+      display: none;
       align-items: center;
-      z-index: 9999;
-
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      justify-content: center;
+      background: rgba(0,0,0,.65);
+      z-index: 120;
+      padding: 18px;
     }
+    #apercuModal.show{ display: flex; }
 
-    .apercu-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Image Aperçu */
-    .apercu-img {
-      max-width: 90vw;     /* largeur max = 90% écran */
-      max-height: 85vh;    /* hauteur max = 85% écran */
+    .apercu-photo{
+      display:block;
+      width: 100%;
+      max-width: 720px;      /* ✅ plus grand que l’égérie */
+      max-height: 80vh;      /* ✅ évite plein écran */
+      margin: 18px auto 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 40px rgba(0,0,0,.45);
       object-fit: contain;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    }
+      background: #000;
+}
 
-    /* Bouton fermer */
-    .apercu-close {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+
+    
 
     
   </style>
@@ -610,7 +593,7 @@
 
       <div class="links">
         <a href="menu.html">Menu</a>
-        <a href="#ambiance">Aperçu</a>
+        <a href="#ambiance">Apercu</a>
         <a href="#infos">Infos</a>
       </div>
 
@@ -697,7 +680,7 @@
         </div>
         <div class="card">
           <div class="feature-title">Desserts</div>
-          <div class="feature-text">Le petit final qui fait la différence — parfait à partager.</div>
+          <div class="feature-text">Le petit final qui fait la différence — Instant Crush!</div>
         </div>
       </div>
     </div>
@@ -830,9 +813,13 @@
     </div>
   </div>
 
-  <div class="apercu-overlay" id="apercuOverlay">
-    <button class="apercu-close" id="apercuClose" type="button">Fermer</button>
-    <img src="./nekfeu.png" alt="Aperçu" class="apercu-img" />
+
+  <div class="modal" id="apercuModal">
+    <div class="modal-content">
+      <button class="btn close" id="closeApercu">Fermer</button>
+      <img src="./nekfeu.png" class="apercu-photo" alt="Aperçu" />
+      <p class="egerie-caption">Aperçu</p>
+    </div>
   </div>
 
 
@@ -924,20 +911,33 @@
     });
 
     const apercuLink = document.querySelector('a[href="#ambiance"]');
-    const apercuOverlay = document.getElementById("apercuOverlay");
+    const apercuModal = document.getElementById("apercuModal");
+    const closeApercu = document.getElementById("closeApercu");
 
     if (apercuLink) {
       apercuLink.addEventListener("click", (e) => {
         e.preventDefault();
-        apercuOverlay.classList.add("show");
+        apercuModal.classList.add("show");
       });
     }
 
-    apercuOverlay.addEventListener("click", () => {
-      apercuOverlay.classList.remove("show");
+    if (closeApercu) {
+      closeApercu.addEventListener("click", () => {
+        apercuModal.classList.remove("show");
+      });
+    }
+
+    // fermer si on clique sur le fond (comme l’égérie)
+    apercuModal.addEventListener("click", (e) => {
+      if (e.target === apercuModal) {
+        apercuModal.classList.remove("show");
+      }
     });
 
+
   </script>
+
+
 
  
 
